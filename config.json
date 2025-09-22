@@ -1,0 +1,21 @@
+{
+  "translation": {
+    "target_language": "Vietnamese",               
+    "model": "aisingapore/Gemma-SEA-LION-v4-27B-IT",  
+    "max_tokens": 2250,                        
+    "temperature": 0.2                         
+  },
+  "chunking": {
+    "target_tokens": 1500,                     
+    "max_chunks": null                        
+  },
+  "output": {
+    "line_width": 80,                          
+    "format_output": true,                     
+    "output_dir": "output"                     
+  },
+  "processing": {
+    "num_chunks": null,                      
+    "chunks_dir": "chunks"                    
+  }
+}

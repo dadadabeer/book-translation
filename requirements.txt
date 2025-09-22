@@ -1,0 +1,17 @@
+# Book Translation Project Dependencies
+# Core dependencies for SEA-LION API communication and environment management
+
+# OpenAI client for SEA-LION API communication
+openai>=1.0.0
+
+# Environment variable management
+python-dotenv>=1.0.0
+
+# Optional: For advanced text processing (if needed in future)
+# nltk>=3.8
+# tiktoken>=0.5.0
+
+# Development dependencies (optional)
+# pytest>=7.0.0
+# black>=23.0.0
+# flake8>=6.0.0
