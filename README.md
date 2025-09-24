@@ -237,8 +237,7 @@ python manage_chunks.py list
 
 ## Supported Languages
 
-- Vietnamese, Malay, Indonesian, Thai
-- Tagalog, Burmese, Khmer, Lao
+- Vietnamese, Malay, Indonesian, Thai, Tagalog
 - Any language supported by SEA-LION model
 
 ## Dependencies
