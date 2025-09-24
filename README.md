@@ -131,6 +131,80 @@ python run_chunk_based_parallel.py
 python manage_chunks.py merge
 ```
 
+## Project Structure
+
+```
+book-translation/
+├── 📁 chunks/                    # Original book chunks (174 files)
+│   ├── chunk_01.txt             # Book segments for translation
+│   ├── chunk_02.txt
+│   └── ...                      # chunk_01.txt to chunk_174.txt
+│
+├── 📁 translated_chunks/         # Translated chunks (119 files)
+│   ├── translated_chunk_01.txt  # AI-translated versions
+│   ├── translated_chunk_02.txt
+│   └── ...                      # Corresponding translated files
+│
+├── 📁 output/                    # Final translated books
+│   ├── translated_book_malay.txt      # Complete Malay translation
+│   └── translated_book_vietnamese.txt # Complete Vietnamese translation
+│
+├── 📁 data/                      # Source material
+│   └── pg16317.txt              # Original English book (Project Gutenberg)
+│
+├── 📁 scripts/                   # Utility scripts
+│   ├── chunk_book.py            # Splits book into manageable chunks
+│   ├── count_txt_tokens.py      # Counts tokens in original text file
+│   └── test_tokens.py           # Script to test max output token of current model of SEALION
+│
+├── 📁 src/                       # Core application code
+│   ├── __init__.py              # Package initialization
+│   ├── chunk_merger.py          # Combines translated chunks
+│   ├── chunk_translator.py      # Main translation logic
+│   ├── client.py                # SEA-LION API integration
+│   ├── config.py                # Configuration management
+│   ├── formatter.py             # Output formatting
+│   └── progress_tracker.py      # Resume capability
+│
+├── 📄 run_chunk_based.py         # Sequential translation runner
+├── 📄 run_chunk_based_parallel.py # Parallel translation (recommended)
+├── 📄 manage_chunks.py           # Chunk management CLI
+├── 📄 change_language.py         # Interactive language selector
+├── 📄 config.json               # Translation settings
+├── 📄 translation_progress.json # Progress tracking file
+├── 📄 requirements.txt          # Python dependencies
+├── 📄 .env                      # API keys (not in git)
+└── 📄 README.md                 # This file
+```
+
+### File Descriptions
+
+| File/Directory | Purpose | Key Features |
+|----------------|---------|--------------|
+| `chunks/` | Original book segments | 174 files, ~1500 tokens each |
+| `translated_chunks/` | AI-translated segments | Progressively built, resumable |
+| `output/` | Final translated books | Complete books in target language |
+| `data/pg16317.txt` | Source book | Project Gutenberg English text |
+| `run_chunk_based_parallel.py` | Main translator | 4 parallel workers, fault-tolerant |
+| `manage_chunks.py` | Chunk utilities | List, validate, merge, clear operations |
+| `config.json` | Settings | Language, model, token limits, formatting |
+| `translation_progress.json` | Progress tracking | Resume capability, skip completed chunks |
+| `src/chunk_translator.py` | Core translation logic | Main translation processing |
+| `src/client.py` | SEA-LION API integration | API communication, error handling |
+| `src/chunk_merger.py` | Combines translated chunks | Merges chunks into final book |
+| `src/progress_tracker.py` | Resume functionality | Tracks completed chunks |
+| `scripts/chunk_book.py` | Book segmentation | Splits into optimal chunk sizes |
+| `scripts/count_txt_tokens.py` | Token counting | Analyzes text file token counts |
+| `scripts/test_tokens.py` | Token testing | Utilities for token analysis |
+
+### Key Directories
+
+- **`chunks/`**: Contains the original English text split into manageable segments
+- **`translated_chunks/`**: Stores individual translated segments as they're processed
+- **`output/`**: Final complete translated books ready for reading
+- **`src/`**: Modular Python code for translation logic, configuration, and utilities
+- **`scripts/`**: Standalone utilities for book processing
+
 ## Configuration
 
 ### Key Settings in `config.json`:
