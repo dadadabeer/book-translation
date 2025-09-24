@@ -118,8 +118,11 @@ python change_language.py
 
 ### 3. Translate
 ```bash
-# Create chunks
+# Create chunks. Already created but re run this if you want more chunks by adjusting the token size of each chunk (currently 1500)
 python scripts/chunk_book.py
+
+# Translate (sequential)
+python run_chunk_based.py
 
 # Translate (parallel recommended)
 python run_chunk_based_parallel.py
@@ -166,7 +169,7 @@ python manage_chunks.py merge
 | `num_chunks` | Limit for testing | `null` (all chunks) or number |
 | `format_output` | Clean formatting | `true` (recommended) |
 
-## Usage Examples
+## Usage Examples (run the corresponding script for sequential or parallel)
 
 ### Full Book Translation
 ```bash
