@@ -48,9 +48,9 @@ Thumbs.db
 
 # Project specific
 # Generated chunks (can be large)
-chunks/
-translated_chunks/
-output/
+# chunks/
+# translated_chunks/
+# output/
 
 # Progress tracking
 translation_progress.json
