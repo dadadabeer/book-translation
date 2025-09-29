@@ -7,7 +7,7 @@ import sys
 from src.config import load_config, SUPPORTED_LANGUAGES
 
 def main():
-    print("🌍 Book Translation - Language Configuration")
+    print(" Book Translation - Language Configuration")
     print("=" * 50)
     
     try:
@@ -42,17 +42,17 @@ def main():
                         if new_language:
                             break
                         else:
-                            print("❌ Language name cannot be empty. Please try again.")
+                            print(" Language name cannot be empty. Please try again.")
                     else:
-                        print(f"❌ Invalid choice. Please enter a number between 1 and {len(SUPPORTED_LANGUAGES) + 1}.")
+                        print(f" Invalid choice. Please enter a number between 1 and {len(SUPPORTED_LANGUAGES) + 1}.")
                 else:
-                    print("❌ Please enter a valid number.")
+                    print(" Please enter a valid number.")
                     
             except KeyboardInterrupt:
                 print("\n👋 Cancelled.")
                 sys.exit(0)
             except Exception as e:
-                print(f"❌ Error: {e}")
+                print(f" Error: {e}")
         
         # Update configuration
         config.update_target_language(new_language)
@@ -64,7 +64,7 @@ def main():
         print("💡 You can now run 'python run.py' to start translation.")
         
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f" Error: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":

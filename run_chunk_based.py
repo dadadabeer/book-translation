@@ -20,12 +20,12 @@ def main():
         output_file = config.get_output_filename()
         format_output = config.format_output
         
-        print("🚀 CHUNK-BASED TRANSLATION SYSTEM")
+        print(" CHUNK-BASED TRANSLATION SYSTEM")
         print("=" * 60)
-        print(f"📖 Target Language: {target_lang}")
-        print(f"📁 Source Chunks: {chunks_dir}")
-        print(f"📁 Final Output: {output_file}")
-        print(f"🎨 Format Output: {format_output}")
+        print(f" Target Language: {target_lang}")
+        print(f" Source Chunks: {chunks_dir}")
+        print(f" Final Output: {output_file}")
+        print(f" Format Output: {format_output}")
         print("=" * 60)
         
         # Initialize chunk translator
@@ -34,7 +34,7 @@ def main():
         # Check if chunks already exist
         existing_chunks = translator.get_translated_files()
         if existing_chunks:
-            print(f"📄 Found {len(existing_chunks)} existing translated chunks")
+            print(f" Found {len(existing_chunks)} existing translated chunks")
             response = input("Continue with existing chunks? (y/N): ").strip().lower()
             if response != 'y':
                 print("🧹 Clearing existing chunks...")
@@ -42,7 +42,7 @@ def main():
                 translator.progress_tracker.clear_progress()
         
         # Translate all chunks separately
-        print("\n🔄 STEP 1: TRANSLATING CHUNKS SEPARATELY")
+        print("\n STEP 1: TRANSLATING CHUNKS SEPARATELY")
         print("-" * 60)
         
         start_time = time.time()
@@ -59,13 +59,13 @@ def main():
         # Check if translation was successful
         successful_chunks = sum(1 for r in results if r["success"])
         if successful_chunks == 0:
-            print("❌ No chunks were translated successfully!")
+            print("No chunks were translated successfully!")
             sys.exit(1)
         
         print(f"\n✅ Translation completed: {successful_chunks} chunks")
         
         # Merge chunks
-        print("\n🔄 STEP 2: MERGING CHUNKS INTO FINAL BOOK")
+        print("\n STEP 2: MERGING CHUNKS INTO FINAL BOOK")
         print("-" * 60)
         
         merger = ChunkMerger("translated_chunks")
@@ -73,7 +73,7 @@ def main():
         # Validate chunks before merging
         validation = merger.validate_chunks()
         if not validation["valid"]:
-            print("⚠️  Warning: Chunk validation failed!")
+            print("Warning: Chunk validation failed!")
             if validation["missing_chunks"]:
                 print(f"   Missing chunks: {validation['missing_chunks']}")
             if validation["extra_chunks"]:
@@ -81,7 +81,7 @@ def main():
             
             response = input("Continue with merge anyway? (y/N): ").strip().lower()
             if response != 'y':
-                print("❌ Merge cancelled")
+                print("Merge cancelled")
                 sys.exit(1)
         
         # Perform merge
@@ -92,9 +92,9 @@ def main():
         # Final statistics
         total_time = time.time() - start_time
         
-        print(f"\n🎉 CHUNK-BASED TRANSLATION COMPLETE!")
+        print(f"\n CHUNK-BASED TRANSLATION COMPLETE!")
         print("=" * 60)
-        print(f"📊 FINAL STATISTICS:")
+        print(f"FINAL STATISTICS:")
         print(f"   • Total chunks processed: {len(results)}")
         print(f"   • Successful translations: {successful_chunks}")
         print(f"   • Failed translations: {len(results) - successful_chunks}")
@@ -113,7 +113,7 @@ def main():
         print()
         
         if len(results) - successful_chunks > 0:
-            print("❌ Failed chunks (can be retried individually):")
+            print(" Failed chunks (can be retried individually):")
             for result in results:
                 if not result["success"]:
                     print(f"   • {result['filename']}: {result['error']}")
@@ -126,12 +126,12 @@ def main():
         print("   • Delete 'translated_chunks/' directory to save space")
         
     except KeyboardInterrupt:
-        print(f"\n⚠️  Translation interrupted by user")
+        print(f"\n Translation interrupted by user")
         print("💡 Individual chunk files are saved in 'translated_chunks/'")
         print("💡 You can resume by running the script again")
         sys.exit(1)
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"Error: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":

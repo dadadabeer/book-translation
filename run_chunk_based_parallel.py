@@ -31,7 +31,7 @@ class ParallelChunkTranslator(ChunkTranslator):
             with open(chunk_filepath, "r", encoding="utf-8") as f:
                 chunk_text = f.read()
             
-            print(f"🔄 [Thread] Translating {filename}...")
+            print(f" [Thread] Translating {filename}...")
             
             # Import here to avoid circular imports
             from src.chunk_translator import translate_chunk
@@ -68,7 +68,7 @@ class ParallelChunkTranslator(ChunkTranslator):
                 "translation": final_output
             }
             
-            print(f"✅ [Thread] {filename} → {translated_filename} ({duration:.1f}s)")
+            print(f" [Thread] {filename} → {translated_filename} ({duration:.1f}s)")
             return result
             
         except Exception as e:
@@ -82,7 +82,7 @@ class ParallelChunkTranslator(ChunkTranslator):
                 "duration": duration
             }
             
-            print(f"❌ [Thread] {filename} failed: {str(e)}")
+            print(f"[Thread] {filename} failed: {str(e)}")
             return result
     
     def translate_all_chunks_parallel(self, chunks_dir: str, target_lang: str, format_output: bool = True, max_chunks: int = None, max_tokens: int = 8000, temperature: float = 0.2):
@@ -103,13 +103,13 @@ class ParallelChunkTranslator(ChunkTranslator):
         
         total_chunks = len(chunk_files)
         
-        print(f"🚀 PARALLEL TRANSLATION SYSTEM ({self.max_workers} workers)")
+        print(f" PARALLEL TRANSLATION SYSTEM ({self.max_workers} workers)")
         print("=" * 60)
-        print(f"📖 Target Language: {target_lang}")
-        print(f"📁 Chunks Directory: {chunks_dir}")
-        print(f"📁 Output Directory: {self.output_dir}")
-        print(f"🎨 Format Output: {format_output}")
-        print(f"⚡ Max Workers: {self.max_workers}")
+        print(f" Target Language: {target_lang}")
+        print(f" Chunks Directory: {chunks_dir}")
+        print(f"Output Directory: {self.output_dir}")
+        print(f" Format Output: {format_output}")
+        print(f"Max Workers: {self.max_workers}")
         print("=" * 60)
         
         # Start progress tracking
@@ -132,7 +132,7 @@ class ParallelChunkTranslator(ChunkTranslator):
             translated_filepath = os.path.join(self.output_dir, translated_filename)
             
             if os.path.exists(translated_filepath):
-                print(f"⏭️  Skipping {filename} (already translated)")
+                print(f"Skipping {filename} (already translated)")
                 # Read existing translation
                 with open(translated_filepath, "r", encoding="utf-8") as f:
                     existing_translation = f.read()
@@ -153,7 +153,7 @@ class ParallelChunkTranslator(ChunkTranslator):
         
         # Execute parallel translation
         if chunk_tasks:
-            print(f"\n📊 Processing {len(chunk_tasks)} chunks in parallel...")
+            print(f"\n Processing {len(chunk_tasks)} chunks in parallel...")
             
             with concurrent.futures.ThreadPoolExecutor(max_workers=self.max_workers) as executor:
                 # Submit all tasks
@@ -188,10 +188,10 @@ class ParallelChunkTranslator(ChunkTranslator):
                         
                         # Progress update
                         completed = len(results)
-                        print(f"📊 Progress: [{completed}/{total_chunks}] ({completed/total_chunks*100:.1f}%)")
+                        print(f" Progress: [{completed}/{total_chunks}] ({completed/total_chunks*100:.1f}%)")
                         
                     except Exception as e:
-                        print(f"❌ Error processing {chunk_filepath}: {e}")
+                        print(f" Error processing {chunk_filepath}: {e}")
                         error_result = {
                             "success": False,
                             "filename": os.path.basename(chunk_filepath),
@@ -206,9 +206,9 @@ class ParallelChunkTranslator(ChunkTranslator):
         total_time = time.time() - start_time
         successful_chunks = sum(1 for r in results if r["success"])
         
-        print(f"\n🎉 PARALLEL TRANSLATION COMPLETE!")
+        print(f"\n PARALLEL TRANSLATION COMPLETE!")
         print("=" * 60)
-        print(f"📊 STATISTICS:")
+        print(f" STATISTICS:")
         print(f"   • Total chunks: {total_chunks}")
         print(f"   • Successful: {successful_chunks}")
         print(f"   • Failed: {total_chunks - successful_chunks}")
@@ -219,7 +219,7 @@ class ParallelChunkTranslator(ChunkTranslator):
         print()
         
         if total_chunks - successful_chunks > 0:
-            print("❌ Failed chunks:")
+            print(" Failed chunks:")
             for result in results:
                 if not result["success"]:
                     print(f"   • {result['filename']}: {result['error']}")
@@ -237,13 +237,13 @@ def main():
         output_file = config.get_output_filename()
         format_output = config.format_output
         
-        print("🚀 PARALLEL CHUNK-BASED TRANSLATION SYSTEM")
+        print(" PARALLEL CHUNK-BASED TRANSLATION SYSTEM")
         print("=" * 60)
-        print(f"📖 Target Language: {target_lang}")
-        print(f"📁 Source Chunks: {chunks_dir}")
-        print(f"📁 Final Output: {output_file}")
-        print(f"🎨 Format Output: {format_output}")
-        print(f"⚡ Parallel Workers: 4")
+        print(f" Target Language: {target_lang}")
+        print(f" Source Chunks: {chunks_dir}")
+        print(f" Final Output: {output_file}")
+        print(f" Format Output: {format_output}")
+        print(f" Parallel Workers: 4")
         print("=" * 60)
         
         # Initialize parallel chunk translator
@@ -252,7 +252,7 @@ def main():
         # Check if chunks already exist
         existing_chunks = translator.get_translated_files()
         if existing_chunks:
-            print(f"📄 Found {len(existing_chunks)} existing translated chunks")
+            print(f" Found {len(existing_chunks)} existing translated chunks")
             response = input("Continue with existing chunks? (y/N): ").strip().lower()
             if response != 'y':
                 print("🧹 Clearing existing chunks...")
@@ -260,7 +260,7 @@ def main():
                 translator.progress_tracker.clear_progress()
         
         # Translate all chunks in parallel
-        print("\n🔄 STEP 1: PARALLEL TRANSLATION")
+        print("\n STEP 1: PARALLEL TRANSLATION")
         print("-" * 60)
         
         start_time = time.time()
@@ -277,13 +277,13 @@ def main():
         # Check if translation was successful
         successful_chunks = sum(1 for r in results if r["success"])
         if successful_chunks == 0:
-            print("❌ No chunks were translated successfully!")
+            print(" No chunks were translated successfully!")
             sys.exit(1)
         
-        print(f"\n✅ Parallel translation completed: {successful_chunks} chunks")
+        print(f"\n Parallel translation completed: {successful_chunks} chunks")
         
         # Merge chunks
-        print("\n🔄 STEP 2: MERGING CHUNKS INTO FINAL BOOK")
+        print("\n STEP 2: MERGING CHUNKS INTO FINAL BOOK")
         print("-" * 60)
         
         merger = ChunkMerger("translated_chunks")
@@ -291,7 +291,7 @@ def main():
         # Validate chunks before merging
         validation = merger.validate_chunks()
         if not validation["valid"]:
-            print("⚠️  Warning: Chunk validation failed!")
+            print("  Warning: Chunk validation failed!")
             if validation["missing_chunks"]:
                 print(f"   Missing chunks: {validation['missing_chunks']}")
             if validation["extra_chunks"]:
@@ -299,7 +299,7 @@ def main():
             
             response = input("Continue with merge anyway? (y/N): ").strip().lower()
             if response != 'y':
-                print("❌ Merge cancelled")
+                print(" Merge cancelled")
                 sys.exit(1)
         
         # Perform merge
@@ -310,9 +310,9 @@ def main():
         # Final statistics
         total_time = time.time() - start_time
         
-        print(f"\n🎉 PARALLEL TRANSLATION COMPLETE!")
+        print(f"\n PARALLEL TRANSLATION COMPLETE!")
         print("=" * 60)
-        print(f"📊 FINAL STATISTICS:")
+        print(f" FINAL STATISTICS:")
         print(f"   • Total chunks processed: {len(results)}")
         print(f"   • Successful translations: {successful_chunks}")
         print(f"   • Failed translations: {len(results) - successful_chunks}")
@@ -332,13 +332,13 @@ def main():
         print()
         
         if len(results) - successful_chunks > 0:
-            print("❌ Failed chunks (can be retried individually):")
+            print(" Failed chunks (can be retried individually):")
             for result in results:
                 if not result["success"]:
                     print(f"   • {result['filename']}: {result['error']}")
             print()
         
-        print("💡 You can now:")
+        print(" You can now:")
         print("   • View individual translated chunks in 'translated_chunks/'")
         print("   • Re-translate specific chunks if needed")
         print("   • Re-merge chunks with different options")
@@ -347,12 +347,12 @@ def main():
         print("⚡ Performance tip: Use this parallel version for faster translation!")
         
     except KeyboardInterrupt:
-        print(f"\n⚠️  Translation interrupted by user")
+        print(f"\n  Translation interrupted by user")
         print("💡 Individual chunk files are saved in 'translated_chunks/'")
         print("💡 You can resume by running the script again")
         sys.exit(1)
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f" Error: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":

@@ -22,15 +22,15 @@ def clear_chunks():
         print("📁 No translated chunks found")
         return
     
-    print(f"⚠️  This will delete {len(existing_chunks)} translated chunk files")
+    print(f" This will delete {len(existing_chunks)} translated chunk files")
     response = input("Are you sure? (y/N): ").strip().lower()
     
     if response == 'y':
         translator.clear_translated_chunks()
         translator.progress_tracker.clear_progress()
-        print("✅ All translated chunks cleared")
+        print("All translated chunks cleared")
     else:
-        print("❌ Cancelled")
+        print(" Cancelled")
 
 def validate_chunks():
     """Validate translated chunks."""
@@ -38,10 +38,10 @@ def validate_chunks():
     validation = merger.validate_chunks()
     
     if validation["valid"]:
-        print("✅ All chunks are valid and ready for merging")
+        print(" All chunks are valid and ready for merging")
         print(f"📊 Total chunks: {validation['total_chunks']}")
     else:
-        print("❌ Chunk validation failed!")
+        print(" Chunk validation failed!")
         if validation["missing_chunks"]:
             print(f"   Missing chunks: {validation['missing_chunks']}")
         if validation["extra_chunks"]:
@@ -60,20 +60,20 @@ def merge_only(output_file: str = None):
     # Validate first
     validation = merger.validate_chunks()
     if not validation["valid"]:
-        print("❌ Cannot merge: chunk validation failed!")
+        print(" Cannot merge: chunk validation failed!")
         return
     
     print(f"🔄 Merging {validation['total_chunks']} chunks to {output_file}")
     
     try:
         merge_stats = merger.merge_chunks(output_file, add_chapter_breaks=True)
-        print("✅ Merge completed successfully!")
+        print(" Merge completed successfully!")
     except Exception as e:
-        print(f"❌ Merge failed: {e}")
+        print(f" Merge failed: {e}")
 
 def main():
     if len(sys.argv) < 2:
-        print("📄 Chunk Management Utility")
+        print(" Chunk Management Utility")
         print("=" * 40)
         print("Usage:")
         print("  python manage_chunks.py list     - List all translated chunks")
@@ -95,7 +95,7 @@ def main():
         output_file = sys.argv[2] if len(sys.argv) > 2 else None
         merge_only(output_file)
     elif command == "help":
-        print("📄 Chunk Management Utility")
+        print(" Chunk Management Utility")
         print("=" * 40)
         print("Commands:")
         print("  list     - List all translated chunks with sizes")
@@ -111,7 +111,7 @@ def main():
         print("  python manage_chunks.py merge")
         print("  python manage_chunks.py merge output/custom_book.txt")
     else:
-        print(f"❌ Unknown command: {command}")
+        print(f" Unknown command: {command}")
         print("💡 Use 'python manage_chunks.py help' for usage information.")
 
 if __name__ == "__main__":
